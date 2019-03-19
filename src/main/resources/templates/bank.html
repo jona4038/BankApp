@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="/addUser">
+    <input type="text" name="name" placeholder="Navn">
+    <input type="text" name="account" placeholder="Konto">
+    <input type="text" name="balance" placeholder="Saldo">
+    <input type="submit" value="Opret Bruger">
+</form>
+
+<table>
+    <thead>
+    <th>Navn</th>
+    <th>Konto</th>
+    <th>Saldo</th>
+    </thead>
+    <tr th:each="bruger : ${brugere}">
+        <td th:text="${bruger.name}"></td>
+        <td th:text="${bruger.account}"></td>
+        <td th:text="${bruger.balance}"></td>
+    </tr>
+</table>
+</body>
+</html>
