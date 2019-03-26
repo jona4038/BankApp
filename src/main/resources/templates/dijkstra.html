@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script   src="http://code.jquery.com/jquery-3.3.1.js"   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="   crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            drawGraph();
+        });
+
+        function drawGraph() {
+            console.log("drawGraph() called");
+            $.ajax({
+                type: "POST",
+                url: "/api/graph",
+                success: function (data) {
+                    console.log(data);
+                    if(data.msg == "success") {
+                        var c = document.getElementById("myCanvas");
+                        var ctx = c.getContext("2d");
+                        ctx.beginPath();
+                        $.each(data.vertices, function(index, value){
+                            ctx.moveTo(value.x, value.y);
+                            ctx.arc(value.x,value.y,7,0,2*Math.PI);
+                            ctx.strokeText(value.name, value.x, value.y + 15);
+                        });
+
+                        ctx.font = "12px Verdana";
+
+                        $.each(data.edges, function(index, value){
+                            ctx.moveTo(value.v1.x, value.v1.y);
+                            ctx.lineTo(value.v2.x, value.v2.y);
+                            ctx.strokeStyle = "black";
+                            ctx.stroke();
+                            var x = mid(value.v1.x, value.v2.x);
+                            var y = mid(value.v1.y, value.v2.y);
+                            console.log(x , y);
+                            ctx.strokeStyle = "green";
+                            ctx.strokeText(value.weight, x,y);
+                        });
+                        ctx.fill(); // closes path and fills
+                    }
+                }
+
+            });
+
+        }
+        function mid(p1,p2){
+            return (p1+p2)/2;
+        }
+    </script>
+
+</head>
+<body>
+
+<canvas id="myCanvas" width="700" height="700" style="border:1px solid #d3d3d3;">
+    Your browser does not support the HTML5 canvas tag.</canvas>
+
+
+
+</body>
+</html>

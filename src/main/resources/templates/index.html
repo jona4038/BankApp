@@ -34,12 +34,20 @@
                 dataType:'json',
                 data:JSON.stringify(search),
                 success: function (data) {
+                   console.log(data);
+                   $.each(data.result, function(index, value){
+                      $("#responsetext").append("<form><input type ='text' value='"+value.name+"'>"+"<input type='submit'></form>")
+                    })
                    // alert("OK " + data);
-                    $("#responsetext").html(data.message);
+                  //  $("#responsetext").html("Svar: "+data.message);
+                  //  $("#responsetext2").html("Svar: "+data.cow.name);
+
                 },
                 error: function (data) {
+                   console.log(data);
                   alert("Error " + data)
-                    $("#responsetext").html("Fejl i request " + data.message);
+                    $("#responsetext").html("Fejl i request: " + " code: " + data.status + " " +
+                        data.responseJSON.message);
                 }
             });
         }
@@ -48,7 +56,7 @@
     <link rel="stylesheet" href ="/css/style.css">
 </head>
 <body>
-<h3>Velkommen til Maxx Bank</h3>
+<h3>Velkommen til Maxx Bank BORIS</h3>
 
 <form id="searchform">
     <input type="text" id="username">
